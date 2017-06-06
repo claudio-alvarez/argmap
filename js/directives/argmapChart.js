@@ -62,6 +62,12 @@
                                 .append('svg:path')
                                 .attr('d', 'M0,-5L10,0L0,5');
 
+                            // define a cross to delete arrows
+                            defs.append('svg:text')
+                                .attr('id','arrow-delete-cross')
+                                .attr('style', "fill:#ff0000; stroke:#000000, font-size:20px;")
+                                .text('x');
+
                             thisGraph.svg = svg;
                             thisGraph.svgG = svg.append("g")
                                 .classed(thisGraph.consts.graphClass, true);
@@ -502,7 +508,9 @@
                             thisGraph.paths = thisGraph.paths.data(thisGraph.edges, function(d){
                                 return String(d.source.id) + "+" + String(d.target.id);
                             });
+
                             var paths = thisGraph.paths;
+
                             // update existing paths
                             paths.style('marker-end', 'url(#end-arrow)')
                                 .classed(consts.selectedClass, function(d){
@@ -520,8 +528,18 @@
                                 .attr("d", function(d){
                                     return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
                                 })
-                                .on("mousedown", function(d){
-                                        thisGraph.pathMouseDown.call(thisGraph, d3.select(this), d);
+                                .on("mousedown", function(d) {
+                                        // If delete mode is on, we must delete this edge
+                                        if (d3.select('#cb-delete-arrow').node().checked) {
+                                            var state = thisGraph.state;
+
+                                            thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
+                                            state.selectedEdge = null;
+                                            thisGraph.updateGraph();
+                                        }
+                                        else {
+                                            thisGraph.pathMouseDown.call(thisGraph, d3.select(this), d);
+                                        }
                                     }
                                 )
                                 .on("mouseup", function(d){
@@ -532,11 +550,11 @@
                             paths.exit().remove();
 
                             // update existing nodes
-                            thisGraph.circles = thisGraph.circles.data(thisGraph.nodes, function(d){ return d.id;});
+                            thisGraph.circles = thisGraph.circles.data(thisGraph.nodes, function(d){ return d.id; });
                             thisGraph.circles.attr("transform", function(d){return "translate(" + d.x + "," + d.y + ")";});
 
                             // add new nodes
-                            var newGs= thisGraph.circles.enter()
+                            var newGs = thisGraph.circles.enter()
                                 .append("g");
 
                             newGs.classed(consts.circleGClass, true)
@@ -576,10 +594,9 @@
 
                         GraphCreator.prototype.updateWindow = function(svg){
                             var docEl = document.documentElement,
-                                argmapContainerEl = document.getElementById('argmap-canvas'); //= document.getElementsByTagName('body')[0];
+                                argmapContainerEl = document.getElementById('argmap'); //= document.getElementsByTagName('body')[0];
                             var x = window.innerWidth || docEl.clientWidth || argmapContainerEl.clientWidth;
                             var y = window.innerHeight|| docEl.clientHeight|| argmapContainerEl.clientHeight;
-                            console.log("x:%d, y:%d", x, y);
                             svg.attr("width", x).attr("height", y);
                         };
 
