@@ -105,7 +105,6 @@
                             svg.on("mousedown", function(d){thisGraph.svgMouseDown.call(thisGraph, d);});
                             svg.on("mouseup", function(d){thisGraph.svgMouseUp.call(thisGraph, d);});
 
-
                             // listen for dragging
                             var dragSvg = d3.behavior.zoom()
                                 .on("zoom", function(){
@@ -206,12 +205,14 @@
                         /* PROTOTYPE FUNCTIONS */
 
                         GraphCreator.prototype.dragmove = function(d) {
+                            console.log("[dragmove]")
                             var thisGraph = this;
                             if (thisGraph.state.shiftNodeDrag){
                                 thisGraph.dragLine.attr('d', 'M' + d.x + ',' + d.y + 'L' + d3.mouse(thisGraph.svgG.node())[0] + ',' + d3.mouse(this.svgG.node())[1]);
                             } else{
+                                console.log("increment coord");
                                 d.x += d3.event.dx;
-                                d.y +=  d3.event.dy;
+                                d.y += d3.event.dy;
                                 thisGraph.updateGraph();
                             }
                         };
@@ -299,6 +300,8 @@
                         };
 
                         GraphCreator.prototype.pathMouseDown = function(d3path, d){
+                            console.log("[pathMouseDown]");
+
                             var thisGraph = this,
                                 state = thisGraph.state;
                             d3.event.stopPropagation();
@@ -318,11 +321,14 @@
 
                         // mousedown on node
                         GraphCreator.prototype.circleMouseDown = function(d3node, d){
+                            console.log("[circleMouseDown]");
+
                             var thisGraph = this,
                                 state = thisGraph.state;
                             d3.event.stopPropagation();
                             state.mouseDownNode = d;
                             if (d3.event.shiftKey){
+                                console.log("[d3.event.shiftKey]")
                                 state.shiftNodeDrag = d3.event.shiftKey;
                                 // reposition dragged directed edge
                                 thisGraph.dragLine.classed('hidden', false)
@@ -373,6 +379,8 @@
 
                         // mouseup on nodes
                         GraphCreator.prototype.circleMouseUp = function(d3node, d){
+                            console.log("[circleMouseUp]");
+
                             var thisGraph = this,
                                 state = thisGraph.state,
                                 consts = thisGraph.consts;
@@ -512,7 +520,7 @@
                             var paths = thisGraph.paths;
 
                             // update existing paths
-                            paths.style('marker-end', 'url(#end-arrow)')
+                            paths.select("path").style('marker-end', 'url(#end-arrow)')
                                 .classed(consts.selectedClass, function(d){
                                     return d === state.selectedEdge;
                                 })
@@ -520,9 +528,20 @@
                                     return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
                                 });
 
-                            // add new paths
-                            paths.enter()
-                                .append("path")
+                            // update existing message handles grouped with paths
+                            paths.select(".message-handle").style('marker-end', 'url(#end-arrow)')
+                                .attr("cx", (d) => {
+                                    return (d.source.x + d.target.x)/2;
+                                })
+                                .attr("cy", (d) => {
+                                    return (d.source.y + d.target.y)/2;
+                                });
+
+                            let pathGroupsEnter = paths.enter()
+                                .append('svg:g')
+                                .attr('class', 'arrow-group');
+
+                            pathGroupsEnter.append("path")
                                 .style('marker-end','url(#end-arrow)')
                                 .classed("link", true)
                                 .attr("d", function(d){
@@ -545,6 +564,47 @@
                                 .on("mouseup", function(d){
                                     state.mouseDownLink = null;
                                 });
+
+                            pathGroupsEnter.append("circle")
+                                .classed("message-handle", true)
+                                .attr("r", "8px")
+                                .attr("cx", (d) => {
+                                    return (d.source.x + d.target.x)/2;
+                                })
+                                .attr("cy", (d) => {
+                                    return (d.source.y + d.target.y)/2;
+                                })
+                                .attr("fill", "red")
+                                .on("mousedown", function(d){
+
+                                    console.log("Tap/click on arrow! (%d, %d)", d.source.id, d.target.id);
+                                });
+
+                            // add new paths
+/*                            paths.enter()
+                                .append("path")
+                                .style('marker-end','url(#end-arrow)')
+                                .classed("link", true)
+                                .attr("d", function(d){
+                                    return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
+                                })
+                                .on("mousedown", function(d) {
+                                        // If delete mode is on, we must delete this edge
+                                        if (d3.select('#cb-delete-arrow').node().checked) {
+                                            var state = thisGraph.state;
+
+                                            thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
+                                            state.selectedEdge = null;
+                                            thisGraph.updateGraph();
+                                        }
+                                        else {
+                                            thisGraph.pathMouseDown.call(thisGraph, d3.select(this), d);
+                                        }
+                                    }
+                                )
+                                .on("mouseup", function(d){
+                                    state.mouseDownLink = null;
+                                });*/
 
                             // remove old links
                             paths.exit().remove();
