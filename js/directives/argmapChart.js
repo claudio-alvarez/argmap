@@ -15,7 +15,8 @@
                 scope: {
                     ideas: '=',
                     edges: '=',
-                    chartSetCallback: '&'
+                    chartSetCallback: '&',
+                    edgeClickCallback: '&'
                 },
                 link: function (scope, iElement, iAttrs) {
                     d3.d3().then((d3) => {
@@ -575,36 +576,9 @@
                                     return (d.source.y + d.target.y)/2;
                                 })
                                 .attr("fill", "red")
-                                .on("mousedown", function(d){
-
-                                    console.log("Tap/click on arrow! (%d, %d)", d.source.id, d.target.id);
-                                });
-
-                            // add new paths
-/*                            paths.enter()
-                                .append("path")
-                                .style('marker-end','url(#end-arrow)')
-                                .classed("link", true)
-                                .attr("d", function(d){
-                                    return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
-                                })
                                 .on("mousedown", function(d) {
-                                        // If delete mode is on, we must delete this edge
-                                        if (d3.select('#cb-delete-arrow').node().checked) {
-                                            var state = thisGraph.state;
-
-                                            thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
-                                            state.selectedEdge = null;
-                                            thisGraph.updateGraph();
-                                        }
-                                        else {
-                                            thisGraph.pathMouseDown.call(thisGraph, d3.select(this), d);
-                                        }
-                                    }
-                                )
-                                .on("mouseup", function(d){
-                                    state.mouseDownLink = null;
-                                });*/
+                                    scope.edgeClickCallback()(d);
+                                });
 
                             // remove old links
                             paths.exit().remove();

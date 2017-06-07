@@ -24,6 +24,13 @@
             $scope.ideaIdx++;
             $scope.argmapChart.updateGraph();
         };
+
+        //$scope.edge_clicked = 'SDFJISUFISA';
+
+        $scope.edgeClickCallback = (data) => {
+            $scope.edge_clicked = data;
+            $scope.$apply();
+        }
     });
 
 }());

@@ -15,16 +15,16 @@
         <div class="row">
             <div class="col-md-8">
                 <button data-ng-click="addIdea()">Add Idea</button>
+                <div class="info">
+                    Edge clicked on: {{edge_clicked}}
+                </div>
                 <div id="argmap">
-                    <div argmap-chart chart-set-callback="chartSetCallback" ideas="ideas" edges="edges" style="height:100%"></div>
+                    <div argmap-chart edge-click-callback="edgeClickCallback" chart-set-callback="chartSetCallback" ideas="ideas" edges="edges" style="height:100%"></div>
                     <div id="toolbox">
                         <input type="file" id="hidden-file-upload">
                         <input type="checkbox" id="cb-delete-arrow"  data-toggle="toggle" data-onstyle="danger" data-offstyle="success">Borrar Arcos
                     </div>
                 </div>
-                <!--<div class="info">
-                    Nodes in chart: {{ideas}}
-                </div>-->
             </div>
             <div class="col-md-4">
                 <!-- Nested node template -->
