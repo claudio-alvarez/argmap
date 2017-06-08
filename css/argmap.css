@@ -5,7 +5,7 @@ body{
 }
 
 p{ 
-     text-align: center; 
+     text-align: left;
      overflow: overlay;
      position: relative;
 }
@@ -122,4 +122,9 @@ path.link.selected {
 #argmap_graph {
     height: 100%;
     width: 100%;
+}
+
+textarea{
+    text-align: justify;
+    white-space: normal;
 }

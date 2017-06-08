@@ -137,7 +137,7 @@
                             d3.select("#download-input").on("click", function(){
                                 var saveEdges = [];
                                 thisGraph.edges.forEach(function(val, i){
-                                    saveEdges.push({source: val.source.id, target: val.target.id});
+                                    saveEdges.push({source: val.source.id, target: val.target.id, comment: ''});
                                 });
                                 var blob = new Blob([window.JSON.stringify({"nodes": thisGraph.nodes, "edges": saveEdges})], {type: "text/plain;charset=utf-8"});
                                 saveAs(blob, "mydag.json");
@@ -397,7 +397,7 @@
 
                             if (mouseDownNode !== d){
                                 // we're in a different node: create new edge for mousedown edge and add to graph
-                                var newEdge = {source: mouseDownNode, target: d};
+                                var newEdge = {source: mouseDownNode, target: d, comment: ''};
                                 var filtRes = thisGraph.paths.filter(function(d){
                                     if (d.source === newEdge.target && d.target === newEdge.source){
                                         thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);

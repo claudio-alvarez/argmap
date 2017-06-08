@@ -11,13 +11,28 @@
     <link rel="stylesheet" href="js/bower_components/bootstrap-toggle/css/bootstrap-toggle.css">
 </head>
 <body data-ng-app="argmap" data-ng-controller="argmapCtrl">
+    <script type="text/ng-template" id="argmapModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Comentario de la asociación</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <p>Has elegido asociar la idea "{{ edge_clicked.source.title }}" con la idea "{{ edge_clicked.target.title }}".
+                <br>Ingresa a continuación un comentario que justifique la asociación:</p>
+            <textarea rows="3" cols="50">
+                {{ edge_clicked.comment }}
+            </textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        </div>
+    </script>
     <div class="container">
         <div class="row">
             <div class="col-md-8">
                 <button data-ng-click="addIdea()">Add Idea</button>
-                <div class="info">
-                    Edge clicked on: {{edge_clicked}}
-                </div>
+                <!--<div class="info">
+                    Edge clicked on: {{edge_clicked.comment}}
+                </div>-->
                 <div id="argmap">
                     <div argmap-chart edge-click-callback="edgeClickCallback" chart-set-callback="chartSetCallback" ideas="ideas" edges="edges" style="height:100%"></div>
                     <div id="toolbox">
@@ -27,7 +42,6 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <!-- Nested node template -->
                 <script type="text/ng-template" id="nodes_renderer.html">
                     <div ui-tree-handle class="tree-node tree-node-content">
                         <a class="btn btn-success btn-xs" ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-click="toggle(this)"><span
@@ -55,6 +69,7 @@
             </div>
         </div>
     </div>
+
     <!-- keeping dependencies at the end of the page helps loading the page faster -->
     <script src="js/bower_components/angular/angular.js"></script>
     <script src="js/bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>

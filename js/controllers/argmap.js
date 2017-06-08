@@ -2,13 +2,14 @@
     'use strict';
 
     angular.module('argmap.controllers', ['ui.tree','ui.bootstrap'])
-    .controller('argmapCtrl', function($scope) {
+    .controller('argmapCtrl', function($rootScope, $scope, $uibModal, $log, $document) {
+        var $ctrl = this;
 
         // Argument map initial - hardcoded - ideas
         let ideas = [{'title': "Mi gran if", 'summary': "Premise", 'id': 1, 'x': 100, 'y': 100},
             {'title': "Mi otra gran if", 'summary': "Conclusion", 'id': 2, 'x': 100, 'y': 100 + 200}];
 
-        let edges = [{'source' : ideas[0], 'target' : ideas[1]}];
+        let edges = [{'source' : ideas[0], 'target' : ideas[1], 'comment' : 'Es muy importante la asociación'}];
 
         $scope.argmapChart = {};
         $scope.ideas = ideas;
@@ -25,12 +26,26 @@
             $scope.argmapChart.updateGraph();
         };
 
-        //$scope.edge_clicked = 'SDFJISUFISA';
-
         $scope.edgeClickCallback = (data) => {
             $scope.edge_clicked = data;
             $scope.$apply();
+            $scope.openModal();
+        }
+
+        $scope.animationsEnabled = true;
+        $scope.edge_clicked = {};
+
+        $scope.openModal = () => {
+            $scope.modalInstance = $uibModal.open({
+                templateUrl: 'argmapModalContent.html',
+                scope: $scope
+            });
+        };
+
+        $scope.ok = () => {
+            $scope.modalInstance.close();
         }
     });
 
 }());
+
