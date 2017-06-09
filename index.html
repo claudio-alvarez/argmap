@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/argmap.css">
     <link rel="stylesheet" href="css/tree.css">
     <link rel="stylesheet" href="js/bower_components/bootstrap-toggle/css/bootstrap-toggle.css">
+    <link rel="stylesheet" href="js/bower_components/angular-xeditable/dist/css/xeditable.min.css">
 </head>
 <body data-ng-app="argmap" data-ng-controller="argmapCtrl">
     <script type="text/ng-template" id="argmapModalContent.html">
@@ -29,12 +30,17 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <button data-ng-click="addIdea()">Add Idea</button>
+                <button data-ng-click="addIdea()">Agregar Idea</button>
                 <div id="argmap">
                     <div argmap-chart edge-click-callback="edgeClickCallback" chart-set-callback="chartSetCallback" ideas="ideas" edges="edges" style="height:100%"></div>
                     <div id="toolbox">
-                        <input type="file" id="hidden-file-upload">
-                        <input type="checkbox" id="cb-delete-arrow"  data-toggle="toggle" data-onstyle="danger" data-offstyle="success">Borrar Arcos
+                        <div>
+                            <input type="checkbox" id="cb-delete-arrow" data-toggle="toggle" data-onstyle="danger" data-offstyle="success">Borrar Arcos
+                        </div>
+                        <div>
+                            <br>
+                            <input type="checkbox" id="cb-create-edge" data-toggle="toggle" data-onstyle="danger" data-offstyle="success">Crear Arcos
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,11 +53,13 @@
                                   'glyphicon-chevron-right': collapsed,
                                   'glyphicon-chevron-down': !collapsed
                                 }"></span></a>
-                        {{node.title}}
-                        <a class="pull-right btn btn-danger btn-xs" data-nodrag data-ng-click="remove(this)"><span
-                                class="glyphicon glyphicon-remove"></span></a>
-                        <a class="pull-right btn btn-primary btn-xs" data-nodrag data-ng-click="newSubItem(this)" style="margin-right: 8px;"><span
-                                class="glyphicon glyphicon-plus"></span></a>
+                        <div data-nodrag>
+                            {{node.id}}: <a href="#" onbeforesave="onIdeaTextUpdate($data)" data-editable-text="node.title">{{node.title || "Editar aquí"}}</a>
+                        </div>
+                        <!--<a class="pull-right btn btn-danger btn-xs" data-nodrag data-ng-click="remove(this)"><span-->
+                                <!--class="glyphicon glyphicon-remove"></span></a>-->
+                        <!--<a class="pull-right btn btn-primary btn-xs" data-nodrag data-ng-click="newSubItem(this)" style="margin-right: 8px;"><span-->
+                                <!--class="glyphicon glyphicon-plus"></span></a>-->
                     </div>
                     <ol data-ui-tree-nodes data-ng-model="node.nodes" data-ng-class="{hidden: collapsed}">
                         <li data-ng-repeat="node in node.nodes" data-ui-tree-node data-ng-include="'nodes_renderer.html'">
@@ -75,8 +83,9 @@
     <script src="js/app.js"></script>
     <script src="js/services/d3.js"></script>
     <script src="js/controllers/argmap.js"></script>
-    <script src="js/directives/argmapChart.js"></script>
+    <script src="js/directives/argmap-chart.js"></script>
     <script src="js/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="js/bower_components/bootstrap-toggle/js/bootstrap-toggle.js"></script>
+    <script src="js/bower_components/angular-xeditable/dist/js/xeditable.min.js"></script>
 </body>
 </html>

@@ -6,8 +6,8 @@
         var $ctrl = this;
 
         // Argument map initial - hardcoded - ideas
-        let ideas = [{'title': "Mi gran if", 'summary': "Premise", 'id': 1, 'x': 100, 'y': 100},
-            {'title': "Mi otra gran if", 'summary': "Conclusion", 'id': 2, 'x': 100, 'y': 100 + 200}];
+        let ideas = [{'title': "Idea fuerza 1", 'summary': "Premise", 'id': 1, 'x': 100, 'y': 100},
+            {'title': "Idea fuerza 2", 'summary': "Conclusion", 'id': 2, 'x': 100, 'y': 100 + 200}];
 
         let edges = [{'source' : ideas[0], 'target' : ideas[1], 'comment' : 'Es muy importante la asociación'}];
 
@@ -21,7 +21,7 @@
 
         $scope.ideaIdx = 3;
         $scope.addIdea = () => {
-            ideas.push({'title': "Mi gran if", 'summary': "Premise", 'id': $scope.ideaIdx, 'x': $scope.ideaIdx * 50, 'y': 100});
+            ideas.push({'title': "Edítame pinchando aquí", 'summary': "Este es un resumen de la idea", 'id': $scope.ideaIdx, 'x': $scope.ideaIdx * 50, 'y': 100});
             $scope.ideaIdx++;
             $scope.argmapChart.updateGraph();
         };
@@ -44,8 +44,8 @@
             });
         };
 
-        $scope.pv = () => {
-            console.log("pv: '%s'", $scope.edge_comment);
+        $scope.onIdeaTextUpdate = (data) => {
+            $scope.argmapChart.updateGraph();
         }
 
         $scope.cancel = () => {

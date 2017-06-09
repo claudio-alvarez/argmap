@@ -5,7 +5,8 @@
     'use strict';
 
     // create the angular app
-    angular.module('argmap', [
+    var app = angular.module('argmap', [
+        'xeditable',
         'argmap.controllers',
         'argmap.directives'
     ]);
@@ -14,5 +15,10 @@
     angular.module('d3', []);
     angular.module('argmap.controllers', []);
     angular.module('argmap.directives', ['d3']);
+
+    app.run((editableOptions) => {
+        editableOptions.theme = 'bs3';
+    });
+
 
 }());

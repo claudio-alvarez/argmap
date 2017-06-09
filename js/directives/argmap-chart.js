@@ -63,12 +63,6 @@
                                 .append('svg:path')
                                 .attr('d', 'M0,-5L10,0L0,5');
 
-                            // define a cross to delete arrows
-                            defs.append('svg:text')
-                                .attr('id','arrow-delete-cross')
-                                .attr('style', "fill:#ff0000; stroke:#000000, font-size:20px;")
-                                .text('x');
-
                             thisGraph.svg = svg;
                             thisGraph.svgG = svg.append("g")
                                 .classed(thisGraph.consts.graphClass, true);
@@ -353,7 +347,7 @@
                                 .append("xhtml:p")
                                 .attr("id", consts.activeEditId)
                                 .attr("contentEditable", "true")
-                                .text(d.title)
+                                .text(d.id.toString())
                                 .on("mousedown", function(d){
                                     d3.event.stopPropagation();
                                 })
@@ -365,7 +359,7 @@
                                 })
                                 .on("blur", function(d){
                                     d.title = this.textContent;
-                                    thisGraph.insertTitleLinebreaks(d3node, d.title);
+                                    thisGraph.insertTitleLinebreaks(d3node, d.id.toString());
                                     d3.select(this.parentElement).remove();
                                 });
                             return d3txt;
@@ -578,7 +572,7 @@
                                 .attr("r", String(consts.nodeRadius));
 
                             newGs.each(function(d){
-                                thisGraph.insertTitleLinebreaks(d3.select(this), d.title);
+                                thisGraph.insertTitleLinebreaks(d3.select(this), d.id.toString());
                             });
 
                             // remove old nodes
