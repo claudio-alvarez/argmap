@@ -18,11 +18,11 @@
         <div class="modal-body" id="modal-body">
             <p>Has elegido asociar la idea "{{ edge_clicked.source.title }}" con la idea "{{ edge_clicked.target.title }}".
                 <br>Ingresa a continuación un comentario que justifique la asociación:</p>
-            <textarea rows="3" cols="50">
-                {{ edge_clicked.comment }}
-            </textarea>
+            <textarea ng-model="$parent.edge_comment" rows="3" cols="50"></textarea>
+            <!--<p>{{edge_comment}}</p>-->
         </div>
         <div class="modal-footer">
+            <button class="btn btn-cancel" type="button" ng-click="cancel()">Cancelar</button>
             <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
         </div>
     </script>
@@ -30,9 +30,6 @@
         <div class="row">
             <div class="col-md-8">
                 <button data-ng-click="addIdea()">Add Idea</button>
-                <!--<div class="info">
-                    Edge clicked on: {{edge_clicked.comment}}
-                </div>-->
                 <div id="argmap">
                     <div argmap-chart edge-click-callback="edgeClickCallback" chart-set-callback="chartSetCallback" ideas="ideas" edges="edges" style="height:100%"></div>
                     <div id="toolbox">

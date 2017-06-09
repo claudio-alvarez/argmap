@@ -206,12 +206,10 @@
                         /* PROTOTYPE FUNCTIONS */
 
                         GraphCreator.prototype.dragmove = function(d) {
-                            console.log("[dragmove]")
                             var thisGraph = this;
                             if (thisGraph.state.shiftNodeDrag){
                                 thisGraph.dragLine.attr('d', 'M' + d.x + ',' + d.y + 'L' + d3.mouse(thisGraph.svgG.node())[0] + ',' + d3.mouse(this.svgG.node())[1]);
                             } else{
-                                console.log("increment coord");
                                 d.x += d3.event.dx;
                                 d.y += d3.event.dy;
                                 thisGraph.updateGraph();
@@ -301,8 +299,6 @@
                         };
 
                         GraphCreator.prototype.pathMouseDown = function(d3path, d){
-                            console.log("[pathMouseDown]");
-
                             var thisGraph = this,
                                 state = thisGraph.state;
                             d3.event.stopPropagation();
@@ -322,14 +318,11 @@
 
                         // mousedown on node
                         GraphCreator.prototype.circleMouseDown = function(d3node, d){
-                            console.log("[circleMouseDown]");
-
                             var thisGraph = this,
                                 state = thisGraph.state;
                             d3.event.stopPropagation();
                             state.mouseDownNode = d;
                             if (d3.event.shiftKey){
-                                console.log("[d3.event.shiftKey]")
                                 state.shiftNodeDrag = d3.event.shiftKey;
                                 // reposition dragged directed edge
                                 thisGraph.dragLine.classed('hidden', false)
@@ -380,8 +373,6 @@
 
                         // mouseup on nodes
                         GraphCreator.prototype.circleMouseUp = function(d3node, d){
-                            console.log("[circleMouseUp]");
-
                             var thisGraph = this,
                                 state = thisGraph.state,
                                 consts = thisGraph.consts;
@@ -475,32 +466,6 @@
 
                         // keydown on main svg
                         GraphCreator.prototype.svgKeyDown = function() {
-                            var thisGraph = this,
-                                state = thisGraph.state,
-                                consts = thisGraph.consts;
-                            // make sure repeated key presses don't register for each keydown
-                            if(state.lastKeyDown !== -1) return;
-
-                            state.lastKeyDown = d3.event.keyCode;
-                            var selectedNode = state.selectedNode,
-                                selectedEdge = state.selectedEdge;
-
-                            switch(d3.event.keyCode) {
-                                case consts.BACKSPACE_KEY:
-                                case consts.DELETE_KEY:
-                                    d3.event.preventDefault();
-                                    if (selectedNode){
-                                        thisGraph.nodes.splice(thisGraph.nodes.indexOf(selectedNode), 1);
-                                        thisGraph.spliceLinksForNode(selectedNode);
-                                        state.selectedNode = null;
-                                        thisGraph.updateGraph();
-                                    } else if (selectedEdge){
-                                        thisGraph.edges.splice(thisGraph.edges.indexOf(selectedEdge), 1);
-                                        state.selectedEdge = null;
-                                        thisGraph.updateGraph();
-                                    }
-                                    break;
-                            }
                         };
 
                         GraphCreator.prototype.svgKeyUp = function() {
@@ -621,9 +586,9 @@
                         };
 
                         GraphCreator.prototype.zoomed = function(){
-                            this.state.justScaleTransGraph = true;
+                            /*this.state.justScaleTransGraph = true;
                             d3.select("." + this.consts.graphClass)
-                                .attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+                                .attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");*/
                         };
 
                         GraphCreator.prototype.updateWindow = function(svg){

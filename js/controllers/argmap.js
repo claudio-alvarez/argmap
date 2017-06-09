@@ -28,21 +28,34 @@
 
         $scope.edgeClickCallback = (data) => {
             $scope.edge_clicked = data;
+            $scope.edge_comment = data.comment;
             $scope.$apply();
             $scope.openModal();
         }
 
         $scope.animationsEnabled = true;
         $scope.edge_clicked = {};
+        $scope.edge_comment = '';
 
         $scope.openModal = () => {
             $scope.modalInstance = $uibModal.open({
                 templateUrl: 'argmapModalContent.html',
-                scope: $scope
+                scope: $scope,
             });
         };
 
+        $scope.pv = () => {
+            console.log("pv: '%s'", $scope.edge_comment);
+        }
+
+        $scope.cancel = () => {
+            $scope.modalInstance.dismiss();
+            $scope.modalInstance.close();
+        }
+
         $scope.ok = () => {
+            // find the edge
+            $scope.edge_clicked.comment = $scope.edge_comment;
             $scope.modalInstance.close();
         }
     });
