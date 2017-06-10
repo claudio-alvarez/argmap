@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="js/node_modules/angular-ui-tree/dist/angular-ui-tree.css">
     <link rel="stylesheet" href="css/argmap.css">
     <link rel="stylesheet" href="css/tree.css">
-    <link rel="stylesheet" href="js/node_modules/bootstrap-toggle/css/bootstrap-toggle.css">
     <link rel="stylesheet" href="js/node_modules/angular-xeditable/dist/css/xeditable.min.css">
 </head>
 <body data-ng-app="argmap" data-ng-controller="argmapCtrl">
@@ -23,24 +22,25 @@
             <!--<p>{{edge_comment}}</p>-->
         </div>
         <div class="modal-footer">
-            <button class="btn btn-cancel" type="button" ng-click="cancel()">Cancelar</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancelar</button>
             <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
         </div>
     </script>
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <button data-ng-click="addIdea()">Agregar Idea</button>
                 <div id="argmap">
                     <div argmap-chart edge-click-callback="edgeClickCallback" chart-set-callback="chartSetCallback" ideas="ideas" edges="edges" style="height:100%"></div>
-                    <div id="toolbox">
-                        <div>
-                            <input type="checkbox" id="cb-delete-arrow" data-toggle="toggle" data-onstyle="danger" data-offstyle="success">Borrar Arcos
-                        </div>
-                        <div>
-                            <br>
-                            <input type="checkbox" id="cb-create-edge" data-toggle="toggle" data-onstyle="danger" data-offstyle="success">Crear Arcos
-                        </div>
+                </div>
+                <div id="toolbox">
+                    <div>
+                        <button type="button" ng-click="logDeleteEdges()" class="btn btn-danger" ng-model="deleteEdges" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+                            Borrar Arcos
+                        </button>
+                        <button type="button" class="btn btn-primary" ng-model="createEdges" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+                            Crear Arcos
+                        </button>
+                        <input type="hidden" id="h-delete-arrow" value="{{deleteEdges}}" data-toggle="toggle" data-onstyle="danger" data-offstyle="success">
                     </div>
                 </div>
             </div>
@@ -66,6 +66,11 @@
                         </li>
                     </ol>
                 </script>
+                <div class="well well-sm">
+                    <button type="button" class="btn btn-primary" data-ng-click="addIdea()">
+                        Agregar Idea
+                    </button>
+                </div>
                 <div data-ui-tree="treeValueOptions" data-clone-enabled="true" data-drag-enabled="true" id="tree-root">
                     <ol data-ui-tree-nodes data-ng-model="ideas">
                         <li data-ng-repeat="node in ideas" data-ui-tree-node data-ng-include="'nodes_renderer.html'"></li>
@@ -85,7 +90,6 @@
     <script src="js/controllers/argmap.js"></script>
     <script src="js/directives/argmap-chart.js"></script>
     <script src="js/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="js/node_modules/bootstrap-toggle/js/bootstrap-toggle.js"></script>
     <script src="js/node_modules/angular-xeditable/dist/js/xeditable.min.js"></script>
 </body>
 </html>

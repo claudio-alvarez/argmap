@@ -508,8 +508,9 @@
                                     return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
                                 })
                                 .on("mousedown", function(d) {
+                                        console.log("[scope.deleteEdges] " + d3.select('#h-delete-arrow').node().value);
                                         // If delete mode is on, we must delete this edge
-                                        if (d3.select('#cb-delete-arrow').node().checked) {
+                                        if (d3.select('#h-delete-arrow').node().value == "true") {
                                             var state = thisGraph.state;
 
                                             thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);

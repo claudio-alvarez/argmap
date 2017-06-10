@@ -128,3 +128,31 @@ textarea{
     text-align: justify;
     white-space: normal;
 }
+
+.btn-primary {
+    background: #0099cc;
+    color: #ffffff;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    background: #33a6cc;
+}
+
+.btn-primary:active, .btn-primary.active {
+    background: #007299;
+    box-shadow: none;
+}
+
+.btn-danger {
+    background: #cc4742;
+    color: #ffffff;
+}
+
+.btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active, .open > .dropdown-toggle.btn-danger {
+    background: #cc654e;
+}
+
+.btn-danger:active, .btn-danger.active {
+    background: #760110;
+    box-shadow: none;
+}

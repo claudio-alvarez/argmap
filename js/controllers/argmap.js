@@ -15,6 +15,13 @@
         $scope.ideas = ideas;
         $scope.edges = edges;
 
+        $scope.deleteEdges = false;
+        $scope.createEdges = false;
+
+        $scope.logDeleteEdges = () => {
+            console.log("[logDeleteEdges] " + $scope.deleteEdges);
+        }
+
         $scope.chartSetCallback = (data) => {
             $scope.argmapChart = data;
         }
