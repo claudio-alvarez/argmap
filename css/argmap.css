@@ -5,9 +5,9 @@ body{
 }
 
 p{ 
-     text-align: left;
-     overflow: overlay;
-     position: relative;
+    text-align: left;
+    overflow: overlay;
+    position: relative;
 }
 
 body{
@@ -36,6 +36,7 @@ body{
     width: 30px;
     opacity: 0.4;
 }
+
 #toolbox input:hover{
     opacity: 1;
     cursor: pointer;
@@ -116,7 +117,14 @@ path.link.selected {
 }
 
 #argmap {
-    height: 500px;
+    height:600px;
+
+}
+
+#argmap-chart-container {
+    align-items: stretch;
+    height: 100%;
+    width: 100%;
 }
 
 #argmap_graph {

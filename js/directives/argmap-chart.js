@@ -20,6 +20,7 @@
                 },
                 link: function (scope, iElement, iAttrs) {
                     d3.d3().then((d3) => {
+
                         // define graphcreator object
                         var GraphCreator = function(svg, nodes, edges){
                             var thisGraph = this;

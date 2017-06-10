@@ -3,8 +3,6 @@
 
     angular.module('argmap.controllers', ['ui.tree','ui.bootstrap'])
     .controller('argmapCtrl', function($rootScope, $scope, $uibModal, $log, $document) {
-        var $ctrl = this;
-
         // Argument map initial - hardcoded - ideas
         let ideas = [{'title': "Idea fuerza 1", 'summary': "Premise", 'id': 1, 'x': 100, 'y': 100},
             {'title': "Idea fuerza 2", 'summary': "Conclusion", 'id': 2, 'x': 100, 'y': 100 + 200}];
@@ -60,11 +58,25 @@
             $scope.modalInstance.close();
         }
 
+        $scope.onCommentUpdate = () => {
+            // find the edge
+            $scope.edge_clicked.comment = $scope.edge_comment;
+            $scope.modalInstance.close();
+        }
+
         $scope.ok = () => {
             // find the edge
             $scope.edge_clicked.comment = $scope.edge_comment;
             $scope.modalInstance.close();
         }
+
+        $scope.dynamicPopover = {
+            content: 'Hello, World!',
+            templateUrl: 'myPopoverTemplate.html',
+            title: 'Title',
+            scope: $scope
+        };
+
     });
 
 }());
