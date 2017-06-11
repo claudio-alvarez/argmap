@@ -41,6 +41,10 @@
                                 selectedText: null
                             };
 
+                            thisGraph.defaults = {
+                                empty_comment: "(sin comentario)"
+                            };
+
                             // define arrow markers for graph links
                             var defs = svg.append('svg:defs');
                             defs.append('svg:marker')
@@ -132,7 +136,8 @@
                             d3.select("#download-input").on("click", function(){
                                 var saveEdges = [];
                                 thisGraph.edges.forEach(function(val, i){
-                                    saveEdges.push({source: val.source.id, target: val.target.id, comment: ''});
+                                    console.log(thisGraph.defaults.empty_comment);
+                                    saveEdges.push({source: val.source.id, target: val.target.id, comment: thisGraph.defaults.empty_comment});
                                 });
                                 var blob = new Blob([window.JSON.stringify({"nodes": thisGraph.nodes, "edges": saveEdges})], {type: "text/plain;charset=utf-8"});
                                 saveAs(blob, "mydag.json");
@@ -383,7 +388,7 @@
 
                             if (mouseDownNode !== d){
                                 // we're in a different node: create new edge for mousedown edge and add to graph
-                                var newEdge = {source: mouseDownNode, target: d, comment: ''};
+                                var newEdge = {source: mouseDownNode, target: d, comment: thisGraph.defaults.empty_comment};
                                 var filtRes = thisGraph.paths.filter(function(d){
                                     if (d.source === newEdge.target && d.target === newEdge.source){
                                         thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
@@ -538,7 +543,11 @@
                                 })
                                 .attr("fill", "red")
                                 .on("mousedown", function(d) {
-                                    scope.edgeClickCallback()(d);
+                                    scope.edgeClickCallback()({
+                                        'data': d,
+                                        'x': d3.mouse(this)[0],
+                                        'y': d3.mouse(this)[1]
+                                    });
                                 });
 
                             // remove old links

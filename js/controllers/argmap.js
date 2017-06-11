@@ -15,6 +15,7 @@
 
         $scope.deleteEdges = false;
         $scope.createEdges = false;
+        $scope.commentVisible = false;
 
         $scope.logDeleteEdges = () => {
             console.log("[logDeleteEdges] " + $scope.deleteEdges);
@@ -31,14 +32,19 @@
             $scope.argmapChart.updateGraph();
         };
 
-        $scope.edgeClickCallback = (data) => {
-            $scope.edge_clicked = data;
-            $scope.edge_comment = data.comment;
+        $scope.edgeClickCallback = (args) => {
+            $scope.chart_click_args = args;
+            console.log("Click coordinates: %d %d", args.x, args.y);
+            //$scope.edge_clicked = args.data;
+            //$scope.edge_comment = args.data.comment;
+            $scope.commentVisible = true;
             $scope.$apply();
-            $scope.openModal();
+
+            //$scope.openModal();
         }
 
         $scope.animationsEnabled = true;
+        $scope.chart_click_args = {};
         $scope.edge_clicked = {};
         $scope.edge_comment = '';
 
@@ -61,7 +67,7 @@
         $scope.onCommentUpdate = () => {
             // find the edge
             $scope.edge_clicked.comment = $scope.edge_comment;
-            $scope.modalInstance.close();
+            //$scope.modalInstance.close();
         }
 
         $scope.ok = () => {

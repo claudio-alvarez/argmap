@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/argmap.css">
     <link rel="stylesheet" href="css/tree.css">
     <link rel="stylesheet" href="js/node_modules/angular-xeditable/dist/css/xeditable.min.css">
+    <link rel="stylesheet" href="css/popover.css">
 </head>
 <body data-ng-app="argmap" data-ng-controller="argmapCtrl">
     <script type="text/ng-template" id="myPopoverTemplate.html">
@@ -35,9 +36,22 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <div class="row">
+                <div class="row panel panel-default">
                     <div id="argmap">
                         <div id="argmap-chart-container" argmap-chart edge-click-callback="edgeClickCallback" chart-set-callback="chartSetCallback" ideas="ideas" edges="edges"></div>
+                        <div id="argmap-comment" ng-show="commentVisible" data-argmap-draggable class="argmap-popover" style="position:absolute;top:{{chart_click_args.y}}px;left:{{chart_click_args.x + 40}}px;">
+                            <div class="argmap-popover-inner">
+                                <div class="argmap-popover-title">
+                                    Comentario IFs {{chart_click_args.data.source.id}}-{{chart_click_args.data.target.id}}
+                                    <button type="button" ng-click="commentVisible = !commentVisible" class="close close-popover" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="argmap-popover-content">
+                                    <p>
+                                        <a href="#" onbeforesave="onCommentUpdate()" data-editable-text="chart_click_args.data.comment">{{chart_click_args.data.comment}}</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -51,7 +65,6 @@
                             <button type="button" class="btn btn-primary" ng-model="createEdges" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
                                 Crear Arcos
                             </button>
-                            <button uib-popover-template="dynamicPopover.templateUrl" popover-title="Comentario de Asociación" type="button" class="btn btn-default">Ver Comentario</button>
                             <input type="hidden" id="h-delete-arrow" value="{{deleteEdges}}" data-toggle="toggle" data-onstyle="danger" data-offstyle="success">
                         </div>
                     </div>
@@ -84,7 +97,7 @@
                         Agregar Idea
                     </button>
                 </div>
-                <div class="well well-sm">
+                <div class="panel panel-default">
                     <div data-ui-tree="treeValueOptions" data-clone-enabled="true" data-drag-enabled="true" id="tree-root">
                         <ol data-ui-tree-nodes data-ng-model="ideas">
                             <li data-ng-repeat="node in ideas" data-ui-tree-node data-ng-include="'nodes_renderer.html'"></li>
@@ -106,5 +119,6 @@
     <script src="js/directives/argmap-chart.js"></script>
     <script src="js/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="js/node_modules/angular-xeditable/dist/js/xeditable.min.js"></script>
+    <script src="js/directives/argmap-draggable.js"></script>
 </body>
 </html>
