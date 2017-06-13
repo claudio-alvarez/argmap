@@ -39,7 +39,7 @@
                 <div class="row panel panel-default">
                     <div id="argmap">
                         <div id="argmap-chart-container" argmap-chart edge-click-callback="edgeClickCallback" chart-set-callback="chartSetCallback" ideas="ideas" edges="edges"></div>
-                        <div id="argmap-comment" ng-show="commentVisible" data-argmap-draggable class="argmap-popover" style="position:absolute;top:{{chart_click_args.y}}px;left:{{chart_click_args.x + 40}}px;">
+                        <div id="argmap-comment" ng-show="commentVisible" data-argmap-draggable class="ng-hide argmap-popover" style="position:absolute;top:{{chart_click_args.y}}px;left:{{chart_click_args.x + 40}}px;">
                             <div class="argmap-popover-inner">
                                 <div class="argmap-popover-title">
                                     Comentario IFs {{chart_click_args.data.source.id}}-{{chart_click_args.data.target.id}}
