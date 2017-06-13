@@ -7,6 +7,7 @@
         let ideas = [{'title': "Idea fuerza 1", 'summary': "Premise", 'id': 1, 'x': 100, 'y': 100},
             {'title': "Idea fuerza 2", 'summary': "Conclusion", 'id': 2, 'x': 100, 'y': 100 + 200}];
 
+        // TODO: edge should have an Id
         let edges = [{'source' : ideas[0], 'target' : ideas[1], 'comment' : 'Es muy importante la asociación'}];
 
         $scope.argmapChart = {};
@@ -17,9 +18,7 @@
         $scope.createEdges = false;
         $scope.commentVisible = false;
 
-        $scope.edgeClickArgs = {};
-        $scope.edgeClicked = {};
-        $scope.edgeComment = '';
+        $scope.currentComment = { text: '', edge: {}, x: 0, y: 0};
         $scope.prevNodeClicked = null;
 
         $scope.onSetChart = (data) => {
@@ -29,35 +28,41 @@
         $scope.onEdgeClicked = (args) => {
             // If edge elimination mode is active:
             if ($scope.deleteEdges) {
+                console.log("[onEdgeClicked] Delete mode on!");
                 let edge = args.edge;
 
                 let index = -1;
 
                 // Search for the edge and delete it
-                let found = $scope.edges.every((e, i) => {
+                let found = $scope.edges.some((e, i) => {
                    if (e.source == edge.source && e.target == edge.target) {
                        index = i;
+                       console.log("[onEdgeClicked] Found edge %d!", index);
+
                        return true;
                    }
-                   return false;
+                   else {
+                       return false;
+                   }
                 });
 
                 if (index >= 0 && found) {
-                    $scope.edges.splice(index);
+                    console.log("[onEdgeClicked] Deleting edge %d!", index);
+                    $scope.edges.splice(index, 1);
                 }
 
                 $scope.deleteEdges = false;
 
+                $scope.$apply();
+
                 // Update graph
                 $scope.argmapChart.updateGraph();
             }
-            else {
-                console.log("[onEdgeClicked] begin");
+        }
 
-                $scope.edgeClickArgs = args;
-                $scope.commentVisible = true;
-            }
-
+        $scope.onCommentClicked = (args) => {
+            $scope.currentComment = args;
+            $scope.commentVisible = true;
             $scope.$apply();
         }
 
@@ -147,12 +152,24 @@
             }
         }
 
+        $scope.onEdgeDeleteModeStart = () => {
+            if ($scope.createEdges) {
+                $scope.createEdges = false;
+            }
+        }
+
+        $scope.onEdgeCreateModeStart = () => {
+            if ($scope.deleteEdges) {
+                $scope.deleteEdges = false;
+            }
+        }
+
         $scope.onIdeaTextUpdate = (data) => {
             $scope.argmapChart.updateGraph();
         }
 
         $scope.onCommentUpdate = () => {
-            $scope.edgeClicked.comment = $scope.edgeComment;
+
         }
     });
 

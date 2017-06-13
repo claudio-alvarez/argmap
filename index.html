@@ -12,27 +12,21 @@
     <link rel="stylesheet" href="css/popover.css">
 </head>
 <body data-ng-app="argmap" data-ng-controller="argmapCtrl">
-    <script type="text/ng-template" id="myPopoverTemplate.html">
-        <div>IF{{edgeClicked.source.id}} a IF{{edgeClicked.target.id}}</div>
-        <div class="form-group">
-            <input type="text" ng-change="onCommentUpdate()" ng-model="$parent.edge_comment" class="form-control">
-        </div>
-    </script>
     <div class="container">
         <div class="row">
             <div class="col-md-8">
                 <div class="row panel panel-default">
                     <div id="argmap">
-                        <div id="argmap-chart-container" argmap-chart node-click-callback="onNodeClicked" edge-click-callback="onEdgeClicked" chart-set-callback="onSetChart" ideas="ideas" edges="edges"></div>
-                        <div id="argmap-comment" ng-show="commentVisible" data-argmap-draggable class="ng-hide argmap-popover" style="position:absolute;top:{{edgeClickArgs.y}}px;left:{{edgeClickArgs.x + 40}}px;">
+                        <div id="argmap-chart-container" argmap-chart comment-click-callback="onCommentClicked" node-click-callback="onNodeClicked" edge-click-callback="onEdgeClicked" chart-set-callback="onSetChart" ideas="ideas" edges="edges"></div>
+                        <div id="argmap-comment" ng-show="commentVisible" data-argmap-draggable class="ng-hide argmap-popover" style="position:absolute;top:{{currentComment.y}}px;left:{{currentComment.x + 40}}px;">
                             <div class="argmap-popover-inner">
                                 <div class="argmap-popover-title">
-                                    Comentario IFs {{edgeClickArgs.edge.source.id}}-{{edgeClickArgs.edge.target.id}}
+                                    Comentario IFs {{currentComment.edge.source.id}}-{{currentComment.edge.target.id}}
                                     <button type="button" ng-click="commentVisible = !commentVisible" class="close close-popover" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="argmap-popover-content">
                                     <p>
-                                        <a href="#" onbeforesave="onCommentUpdate()" data-editable-text="edgeClickArgs.data.comment">{{edgeClickArgs.data.comment}}</a>
+                                        <a href="#" onaftersave="onCommentUpdate()" data-editable-text="currentComment.edge.comment">{{currentComment.edge.comment}}</a>
                                     </p>
                                 </div>
                             </div>
@@ -44,13 +38,12 @@
                 <div class="row">
                     <div class="well well-sm">
                         <div>
-                            <button type="button" class="btn btn-danger" ng-model="deleteEdges" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+                            <button type="button" ng-click="onEdgeDeleteModeStart()" class="btn btn-danger" ng-model="deleteEdges" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
                                 Borrar Arco
                             </button>
-                            <button type="button" class="btn btn-primary" ng-model="createEdges" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+                            <button type="button" ng-click="onEdgeCreateModeStart()" class="btn btn-primary" ng-model="createEdges" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
                                 Crear Arco
                             </button>
-                            <!--<input type="hidden" id="h-delete-edge" value="{{deleteEdges}}" data-toggle="toggle" data-onstyle="danger" data-offstyle="success">-->
                         </div>
                     </div>
                 </div>

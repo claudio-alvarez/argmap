@@ -16,6 +16,7 @@
                     ideas: '=',
                     edges: '=',
                     chartSetCallback: '&',
+                    commentClickCallback: '&',
                     edgeClickCallback: '&',
                     nodeClickCallback: '&'
                 },
@@ -512,6 +513,11 @@
                                 })
                                 .on("mousedown", function(d) {
                                     thisGraph.pathMouseDown.call(thisGraph, d3.select(this), d);
+                                    scope.edgeClickCallback()({
+                                        'edge': d,
+                                        'x': d3.mouse(this)[0],
+                                        'y': d3.mouse(this)[1]
+                                    });
 
                                     // // If delete mode is on, we must delete this edge
                                     // if (d3.select('#h-delete-arrow').node().value == "true") {
@@ -539,8 +545,8 @@
                                 })
                                 .attr("fill", "red")
                                 .on("mousedown", function(d) {
-                                    scope.edgeClickCallback()({
-                                        'edge': d,
+                                    scope.commentClickCallback()({
+                                        'edge' : d,
                                         'x': d3.mouse(this)[0],
                                         'y': d3.mouse(this)[1]
                                     });
