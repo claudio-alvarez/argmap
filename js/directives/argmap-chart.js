@@ -5,7 +5,7 @@
     'use strict';
 
     angular.module('argmap.directives')
-        .directive('argmapChart', ['d3', function(d3) {
+        .directive('argmapChart', ['argmap.defaults', 'd3', function(default_messages, d3) {
             return {
                 restrict: 'EA',
                 // 'ideas' and 'edges' attributes must be supplied together with the
@@ -16,7 +16,8 @@
                     ideas: '=',
                     edges: '=',
                     chartSetCallback: '&',
-                    edgeClickCallback: '&'
+                    edgeClickCallback: '&',
+                    nodeClickCallback: '&'
                 },
                 link: function (scope, iElement, iAttrs) {
                     d3.d3().then((d3) => {
@@ -39,10 +40,6 @@
                                 lastKeyDown: -1,
                                 shiftNodeDrag: false,
                                 selectedText: null
-                            };
-
-                            thisGraph.defaults = {
-                                empty_comment: "(sin comentario)"
                             };
 
                             // define arrow markers for graph links
@@ -136,8 +133,7 @@
                             d3.select("#download-input").on("click", function(){
                                 var saveEdges = [];
                                 thisGraph.edges.forEach(function(val, i){
-                                    console.log(thisGraph.defaults.empty_comment);
-                                    saveEdges.push({source: val.source.id, target: val.target.id, comment: thisGraph.defaults.empty_comment});
+                                    saveEdges.push({source: val.source.id, target: val.target.id, comment: default_messages.blank_comment});
                                 });
                                 var blob = new Blob([window.JSON.stringify({"nodes": thisGraph.nodes, "edges": saveEdges})], {type: "text/plain;charset=utf-8"});
                                 saveAs(blob, "mydag.json");
@@ -388,7 +384,8 @@
 
                             if (mouseDownNode !== d){
                                 // we're in a different node: create new edge for mousedown edge and add to graph
-                                var newEdge = {source: mouseDownNode, target: d, comment: thisGraph.defaults.empty_comment};
+                                var newEdge = {source: mouseDownNode, target: d, comment: default_messages.blank_comment};
+
                                 var filtRes = thisGraph.paths.filter(function(d){
                                     if (d.source === newEdge.target && d.target === newEdge.source){
                                         thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
@@ -514,20 +511,19 @@
                                     return "M" + d.source.x + "," + d.source.y + "L" + d.target.x + "," + d.target.y;
                                 })
                                 .on("mousedown", function(d) {
-                                        console.log("[scope.deleteEdges] " + d3.select('#h-delete-arrow').node().value);
-                                        // If delete mode is on, we must delete this edge
-                                        if (d3.select('#h-delete-arrow').node().value == "true") {
-                                            var state = thisGraph.state;
+                                    thisGraph.pathMouseDown.call(thisGraph, d3.select(this), d);
 
-                                            thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
-                                            state.selectedEdge = null;
-                                            thisGraph.updateGraph();
-                                        }
-                                        else {
-                                            thisGraph.pathMouseDown.call(thisGraph, d3.select(this), d);
-                                        }
-                                    }
-                                )
+                                    // // If delete mode is on, we must delete this edge
+                                    // if (d3.select('#h-delete-arrow').node().value == "true") {
+                                    //     var state = thisGraph.state;
+                                    //
+                                    //     thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
+                                    //     state.selectedEdge = null;
+                                    //     thisGraph.updateGraph();
+                                    // }
+                                    // else {
+                                    // }
+                                })
                                 .on("mouseup", function(d){
                                     state.mouseDownLink = null;
                                 });
@@ -544,7 +540,7 @@
                                 .attr("fill", "red")
                                 .on("mousedown", function(d) {
                                     scope.edgeClickCallback()({
-                                        'data': d,
+                                        'edge': d,
                                         'x': d3.mouse(this)[0],
                                         'y': d3.mouse(this)[1]
                                     });
@@ -573,6 +569,12 @@
                                 })
                                 .on("mousedown", function(d){
                                     thisGraph.circleMouseDown.call(thisGraph, d3.select(this), d);
+
+                                    scope.nodeClickCallback()({
+                                        'node' : d,
+                                        'x': d3.mouse(this)[0],
+                                        'y': d3.mouse(this)[1]
+                                    });
                                 })
                                 .on("mouseup", function(d){
                                     thisGraph.circleMouseUp.call(thisGraph, d3.select(this), d);
