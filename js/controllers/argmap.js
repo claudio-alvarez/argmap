@@ -17,6 +17,7 @@
         $scope.deleteEdges = false;
         $scope.createEdges = false;
         $scope.commentVisible = false;
+        $scope.helpVisible = false;
 
         $scope.currentComment = { text: '', edge: {}, x: 0, y: 0};
         $scope.prevNodeClicked = null;
@@ -156,12 +157,19 @@
             if ($scope.createEdges) {
                 $scope.createEdges = false;
             }
+
+            // activate help
+            $scope.helpVisible = true;
         }
 
         $scope.onEdgeCreateModeStart = () => {
+
             if ($scope.deleteEdges) {
                 $scope.deleteEdges = false;
             }
+
+            // activate help
+            $scope.helpVisible = true;
         }
 
         $scope.onIdeaTextUpdate = (data) => {
@@ -170,6 +178,10 @@
 
         $scope.onCommentUpdate = () => {
 
+        }
+
+        $scope.closeHelp = () => {
+            $scope.helpVisible = false;
         }
     });
 

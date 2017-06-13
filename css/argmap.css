@@ -174,3 +174,10 @@ textarea{
     background: #760110;
     box-shadow: none;
 }
+
+.alerts {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+}

@@ -28,6 +28,16 @@
             <div class="col-md-8">
                 <div class="row panel panel-default">
                     <div id="argmap">
+                        <div class="alerts">
+                            <div uib-alert close="closeHelp()" dismiss-on-timeout="5000" class="alert-info" ng-show="helpVisible && (createEdges || deleteEdges)">
+                                <div ng-show="deleteEdges">
+                                    <strong>Toca el arco que deseas eliminar</strong>, o vuelve a presionar el botón "Borrar Arco" para cancelar.
+                                </div>
+                                <div ng-show="createEdges">
+                                    <strong>Toca el primer nodo que deseas unir, y luego toca el siguiente.</strong>
+                                </div>
+                            </div>
+                        </div>
                         <div id="argmap-chart-container" argmap-chart comment-click-callback="onCommentClicked" node-click-callback="onNodeClicked" edge-click-callback="onEdgeClicked" chart-set-callback="onSetChart" ideas="ideas" edges="edges"></div>
                         <div id="argmap-comment" ng-show="commentVisible" data-argmap-draggable class="ng-hide argmap-popover" style="position:absolute;top:{{currentComment.y}}px;left:{{currentComment.x + 40}}px;">
                             <div class="argmap-popover-inner">
