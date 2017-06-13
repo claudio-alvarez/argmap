@@ -10,6 +10,17 @@
     <link rel="stylesheet" href="css/tree.css">
     <link rel="stylesheet" href="js/node_modules/angular-xeditable/dist/css/xeditable.min.css">
     <link rel="stylesheet" href="css/popover.css">
+    <script src="js/node_modules/angular/angular.js"></script>
+    <script src="js/node_modules/angular-ui-tree/dist/angular-ui-tree.js"></script>
+    <script src="js/node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+    <script src="js/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/services/d3.js"></script>
+    <script src="js/controllers/argmap.js"></script>
+    <script src="js/directives/argmap-chart.js"></script>
+    <script src="js/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="js/node_modules/angular-xeditable/dist/js/xeditable.min.js"></script>
+    <script src="js/directives/argmap-draggable.js"></script>
 </head>
 <body data-ng-app="argmap" data-ng-controller="argmapCtrl">
     <div class="container">
@@ -38,11 +49,11 @@
                 <div class="row">
                     <div class="well well-sm">
                         <div>
-                            <button type="button" ng-click="onEdgeDeleteModeStart()" class="btn btn-danger" ng-model="deleteEdges" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
-                                Borrar Arco
-                            </button>
                             <button type="button" ng-click="onEdgeCreateModeStart()" class="btn btn-primary" ng-model="createEdges" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
                                 Crear Arco
+                            </button>
+                            <button type="button" ng-click="onEdgeDeleteModeStart()" class="btn btn-danger" ng-model="deleteEdges" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+                                Borrar Arco
                             </button>
                         </div>
                     </div>
@@ -85,18 +96,5 @@
             </div>
         </div>
     </div>
-
-    <!-- keeping dependencies at the end of the page helps loading the page faster -->
-    <script src="js/node_modules/angular/angular.js"></script>
-    <script src="js/node_modules/angular-ui-tree/dist/angular-ui-tree.js"></script>
-    <script src="js/node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
-    <script src="js/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/services/d3.js"></script>
-    <script src="js/controllers/argmap.js"></script>
-    <script src="js/directives/argmap-chart.js"></script>
-    <script src="js/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="js/node_modules/angular-xeditable/dist/js/xeditable.min.js"></script>
-    <script src="js/directives/argmap-draggable.js"></script>
 </body>
 </html>

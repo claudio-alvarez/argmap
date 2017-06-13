@@ -58,22 +58,32 @@ marker{
     fill: #333;
 }
 
+circle.edge-handle {
+    fill: #FFFB60;
+    stroke: #333;
+    stroke-width: 2px;
+    r: 12px;
+}
+
+circle.edge-handle:hover {
+    fill: #ff6c3c;
+    stroke: #333;
+    stroke-width: 2px;
+}
+
 g.conceptG circle{
-    fill: #F6FBFF;
+    fill: #e0f1ff;
     stroke: #333;
     stroke-width: 2px;
 }
 
 g.conceptG:hover circle{
-    fill: rgb(200, 238, 241);
-}
+    fill: #bee5ff;}
 
 g.selected circle{
-    fill: rgb(250, 232, 255);
-}
+    fill: #bee5ff;}
 g.selected:hover circle{
-    fill: rgb(250, 232, 255);
-}
+    fill: #bee5ff;}
 
 path.link {
     fill: none;
@@ -83,7 +93,7 @@ path.link {
 }
 
 path.link:hover{
-    stroke: rgb(94, 196, 204);
+    stroke: rgb(0, 0, 0);
 }
 
 g.connect-node circle{
@@ -95,7 +105,7 @@ path.link.hidden{
 }
 
 path.link.selected {
-    stroke: rgb(229, 172, 247);
+    stroke: rgb(0, 0, 0);
 }
 
 .argmap-nodes {

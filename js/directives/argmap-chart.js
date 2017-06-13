@@ -192,6 +192,7 @@
                             selectedClass: "selected",
                             connectClass: "connect-node",
                             circleGClass: "conceptG",
+                            edgeHandleClass: "edge-handle",
                             graphClass: "graph",
                             activeEditId: "active-editing",
                             BACKSPACE_KEY: 8,
@@ -493,7 +494,7 @@
                                 });
 
                             // update existing message handles grouped with paths
-                            paths.select(".message-handle").style('marker-end', 'url(#end-arrow)')
+                            paths.select("." + consts.edgeHandleClass).style('marker-end', 'url(#end-arrow)')
                                 .attr("cx", (d) => {
                                     return (d.source.x + d.target.x)/2;
                                 })
@@ -535,7 +536,7 @@
                                 });
 
                             pathGroupsEnter.append("circle")
-                                .classed("message-handle", true)
+                                .classed(consts.edgeHandleClass, true)
                                 .attr("r", "8px")
                                 .attr("cx", (d) => {
                                     return (d.source.x + d.target.x)/2;
