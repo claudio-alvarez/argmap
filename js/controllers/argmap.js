@@ -184,6 +184,33 @@
         $scope.closeHelp = () => {
             $scope.helpVisible = false;
         }
+
+        $scope.treeValueOptions = {
+            removed: (args) => {
+                // traverse the edge list in search for edges that connect to-from
+                // the deleted node
+                let delEdges = [];
+
+                $scope.edges.forEach((d,i,a) => {
+                    if (d.source.id == args.node.id || d.dest.id == args.node.id) {
+                        delEdges.push(i);
+                    }
+                });
+
+                // remove the edges
+                delEdges.forEach((d) => {
+                   $scope.edges.splice(d);
+                });
+
+                // update the graph
+                $scope.argmapChart.updateGraph();
+
+                // regresh the scope
+                $scope.$apply();
+
+                console.log("Node removed: '%s'", args.node.id);
+            }
+        }
     });
 
 }());
