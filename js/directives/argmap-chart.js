@@ -5,7 +5,7 @@
     'use strict';
 
     angular.module('argmap.directives')
-        .directive('argmapChart', ['argmap.defaults', 'd3', function(default_messages, d3) {
+        .directive('argmapChart', ['default_messages', 'd3', function(default_messages, d3) {
             return {
                 restrict: 'EA',
                 // 'ideas' and 'edges' attributes must be supplied together with the
@@ -193,6 +193,7 @@
                             connectClass: "connect-node",
                             circleGClass: "conceptG",
                             edgeHandleClass: "edge-handle",
+                            noCommentClass: "nocomment",
                             graphClass: "graph",
                             activeEditId: "active-editing",
                             BACKSPACE_KEY: 8,
@@ -495,6 +496,9 @@
 
                             // update existing message handles grouped with paths
                             paths.select("." + consts.edgeHandleClass).style('marker-end', 'url(#end-arrow)')
+                                .attr("class", (d) => {
+                                    return thisGraph.isEdgeCommented(d) ? consts.edgeHandleClass : consts.edgeHandleClass + " nocomment";
+                                })
                                 .attr("cx", (d) => {
                                     return (d.source.x + d.target.x)/2;
                                 })
@@ -537,6 +541,9 @@
 
                             pathGroupsEnter.append("circle")
                                 .classed(consts.edgeHandleClass, true)
+                                .attr("class", (d) => {
+                                    return thisGraph.isEdgeCommented(d) ? consts.edgeHandleClass : consts.edgeHandleClass + " nocomment";
+                                })
                                 .attr("r", "8px")
                                 .attr("cx", (d) => {
                                     return (d.source.x + d.target.x)/2;
@@ -612,6 +619,12 @@
                             var y = window.innerHeight|| docEl.clientHeight|| argmapContainerEl.clientHeight;
                             svg.attr("width", x).attr("height", y);
                         };
+
+                        GraphCreator.prototype.isEdgeCommented = function(e) {
+                            console.log("[isEdgeCommented] e value: " + e.comment);
+                            console.log("[isEdgeCommented] default_messages value: " + default_messages.blank_comment);
+                            return e.comment != default_messages.blank_comment;
+                        }
 
                         /** MAIN SVG **/
                         var svg = d3.select(iElement[0])

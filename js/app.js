@@ -5,7 +5,6 @@
     'use strict';
 
     angular.module('argmap.defaults', [])
-        .service('argmap.defaults', function () { /* ... */ })
         .constant('default_messages', {
             'blank_comment' : '(Sin comentario)'
         });

@@ -58,6 +58,13 @@ marker{
     fill: #333;
 }
 
+circle.nocomment {
+    fill: #FFFFFF !important;
+    stroke: #333;
+    stroke-width: 2px;
+    r: 12px;
+}
+
 circle.edge-handle {
     fill: #FFFB60;
     stroke: #333;

@@ -177,7 +177,8 @@
         }
 
         $scope.onCommentUpdate = () => {
-
+            // Update graph
+            $scope.argmapChart.updateGraph();
         }
 
         $scope.closeHelp = () => {
