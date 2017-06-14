@@ -80,9 +80,9 @@
                                 }"></span></a>
                         <div data-nodrag>
                             {{node.id}}: <a href="#" onbeforesave="onIdeaTextUpdate($data)" data-editable-text="node.title">{{node.title || "Editar aquí"}}</a>
+                            <a class="pull-right btn btn-danger btn-xs" data-nodrag data-ng-click="remove(this)"><span
+                                    class="glyphicon glyphicon-remove"></span></a>
                         </div>
-                        <!--<a class="pull-right btn btn-danger btn-xs" data-nodrag data-ng-click="remove(this)"><span-->
-                                <!--class="glyphicon glyphicon-remove"></span></a>-->
                         <!--<a class="pull-right btn btn-primary btn-xs" data-nodrag data-ng-click="newSubItem(this)" style="margin-right: 8px;"><span-->
                                 <!--class="glyphicon glyphicon-plus"></span></a>-->
                     </div>
