@@ -192,8 +192,6 @@
                 let delEdges = [];
 
                 $scope.edges.forEach((d,i,a) => {
-                        d.source.id, d.target.id, args.node.id);
-
                     if (d.source.id == args.node.id || d.target.id == args.node.id) {
                         delEdges.push(i);
                     }
