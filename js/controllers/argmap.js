@@ -192,23 +192,24 @@
                 let delEdges = [];
 
                 $scope.edges.forEach((d,i,a) => {
-                    if (d.source.id == args.node.id || d.dest.id == args.node.id) {
+                        d.source.id, d.target.id, args.node.id);
+
+                    if (d.source.id == args.node.id || d.target.id == args.node.id) {
                         delEdges.push(i);
                     }
                 });
 
-                // remove the edges
-                delEdges.forEach((d) => {
-                   $scope.edges.splice(d);
-                });
+                // Traverse/delete edges in reverse order to preserve
+                // array indices
+                for (let i = delEdges.length -1; i >= 0; i--) {
+                    $scope.edges.splice(delEdges[i],1);
+                }
 
                 // update the graph
                 $scope.argmapChart.updateGraph();
 
                 // regresh the scope
-                $scope.$apply();
-
-                console.log("Node removed: '%s'", args.node.id);
+                //$scope.$apply();
             }
         }
     });
